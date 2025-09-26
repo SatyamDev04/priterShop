@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Printer Shop — Checkout</title>
+  <style>
+    /* ---------- Layout / Reset ---------- */
+    :root{
+      --bg: #f5f7fb;
+      --card: #ffffff;
+      --muted: #707683;
+      --accent: #0066d6;
+      --accent-600: #0052a3;
+      --danger: #c84b4b;
+      --radius: 10px;
+      --gap: 16px;
+      --max-width: 800px;
+    }
+
+    *{box-sizing: border-box}
+    html,body{height:100%;margin:0;font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:#1b2430}
+
+    .page{
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding:40px 20px;
+    }
+
+    .card{
+      width:100%;
+      max-width:var(--max-width);
+      background:var(--card);
+      border-radius:var(--radius);
+      box-shadow: 0 8px 30px rgba(18,30,60,0.06);
+      padding:20px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 320px;
+      gap:20px;
+    }
+
+    /* Responsive: single column on small screens */
+    @media (max-width:880px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    h1.page-title{
+      margin:0 0 8px 0;
+      font-size:20px;
+      letter-spacing: -0.2px;
+    }
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+
+    /* ---------- Form ---------- */
+    form.checkout-form{
+      margin-top:18px;
+    }
+
+    .form-section{
+      margin-bottom:20px;
+      padding-bottom:16px;
+      border-bottom:1px solid #eef2f6;
+    }
+
+    .section-title{
+      font-weight:600;
+      margin-bottom:12px;
+      color:#263244;
+    }
+
+    .row{display:flex;gap:var(--gap);}
+    .col{flex:1}
+
+    .field{
+      display:flex;
+      flex-direction:column;
+      margin-bottom:12px;
+    }
+
+    label.form-label{
+      font-size:13px;
+      margin-bottom:6px;
+      color: #334155;
+      font-weight:600;
+    }
+
+    input.form-input, select.form-input, textarea.form-input{
+      padding:10px 12px;
+      border:1px solid #d6dbe6;
+      border-radius:8px;
+      font-size:14px;
+      outline:none;
+    }
+
+    input.form-input:focus, textarea.form-input:focus, select.form-input:focus{
+      box-shadow:0 0 0 4px rgba(0,102,214,0.08);
+      border-color:var(--accent);
+    }
+
+    .small{font-size:13px;color:var(--muted)}
+
+    .muted-note{font-size:12px;color:var(--muted);margin-top:8px}
+
+    /* Card details layout */
+    .card-grid{display:grid;grid-template-columns: 1fr 120px;gap:12px;}
+    @media (max-width:520px){.card-grid{grid-template-columns:1fr}}
+
+    /* Submit */
+    .actions{margin-top:18px;display:flex;gap:12px;align-items:center}
+    button.btn{
+      appearance:none;border:0;padding:12px 16px;border-radius:8px;font-weight:700;cursor:pointer;
+    }
+    button.btn-primary{background:var(--accent);color:white}
+    button.btn-primary:hover{background:var(--accent-600)}
+    button.btn-ghost{background:transparent;border:1px solid #e6eefc;color:var(--accent)}
+
+    /* Summary (right column) */
+    .summary{
+      background:linear-gradient(180deg,#fbfdff,#ffffff);
+      border-radius:10px;padding:16px;border:1px solid #f0f5fb;
+      height:100%;display:flex;flex-direction:column;justify-content:space-between
+    }
+    .summary h3{margin:0 0 8px 0}
+    .summary .line{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #eef4fb}
+
+    .total{font-weight:800;font-size:18px}
+
+    .danger{color:var(--danger);font-weight:700}
+
+    /* helper */
+    .hint{font-size:12px;color:var(--muted)}
+    
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="card" role="main">
+      <div class="grid">
+
+        <!-- LEFT: FORM -->
+        <div>
+        <header style="display:flex; align-items:center; gap:16px; margin-bottom:24px;">
+  <img src="https://global.canon/01cmn/img/common/logo.svg" 
+       alt="Printer Shop Logo" 
+       style="height:48px; width:auto; display:block;">
+ 
+</header>
+ <h1 style="margin:0; font-size:1.8em; color:#333;">Printer Shop — Checkout</h1>
+          <p class="lead">Fill the form below to checkout.</p>
+
+          <form class="checkout-form" action="#" method="post" onsubmit="event.preventDefault(); alert('Form submitted : open Console to inspect values.'); console.log(getFormData());">
+
+            <!-- CUSTOMER DETAILS -->
+            <section class="form-section" aria-labelledby="customer-head">
+              <div id="customer-head" class="section-title">Customer Details</div>
+
+              <div class="row">
+                <div class="col field">
+                  <label class="form-label" for="fullName">Full name</label>
+                  <input class="form-input" id="fullName" name="fullName" type="text" placeholder="name" required>
+                </div>
+                <div class="col field">
+                  <label class="form-label" for="phone">Phone number</label>
+                  <input class="form-input" id="phone" name="phone" type="tel" placeholder="phone" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col field">
+                  <label class="form-label" for="email">Email address</label>
+                  <input class="form-input" id="email" name="email" type="email" placeholder="email" required>
+                </div>
+                <div class="col field">
+                  <label class="form-label" for="printerModel">Printer model</label>
+                  <input class="form-input" id="printerModel" name="printerModel" type="text" placeholder="e.g., HP LaserJet Pro M404" required>
+                </div>
+              </div>
+
+            </section>
+
+            <!-- BILLING -->
+            <section class="form-section" aria-labelledby="billing-head">
+              <div id="billing-head" class="section-title">Billing address</div>
+
+              <div class="field">
+                <label class="form-label" for="address">Street address</label>
+                <input class="form-input" id="address" name="address" type="text" placeholder="House no., Building, Road" required>
+              </div>
+
+              <div class="row">
+                <div class="col field">
+                  <label class="form-label" for="city">City</label>
+                  <input class="form-input" id="city" name="city" type="text" required>
+                </div>
+                <div class="col field">
+                  <label class="form-label" for="state">State / Province</label>
+                  <input class="form-input" id="state" name="state" type="text" required>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col field">
+                  <label class="form-label" for="zip">ZIP / Postal code</label>
+                  <input class="form-input" id="zip" name="zip" type="text" required>
+                </div>
+                <div class="col field">
+                  <label class="form-label" for="country">Country</label>
+                  <select class="form-input" id="country" name="country" required>
+                    <option value="">Select country</option>
+                    <option>India</option>
+                    <option>United States</option>
+                    <option>Canada</option>
+                    <option>United Kingdom</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+            </section>
+
+            <!-- CARD DETAILS -->
+            <section class="form-section" aria-labelledby="card-head">
+              <div id="card-head" class="section-title">Card details</div>
+
+              <div class="field">
+                <label class="form-label" for="cardNumber">Card number</label>
+                <input class="form-input" id="cardNumber" name="cardNumber" inputmode="numeric" pattern="[0-9\s]{13,19}" maxlength="19" placeholder="1234 5678 9012 3456" required>
+<!--                <div class="small hint"></div>-->
+              </div>
+
+              <div class="card-grid">
+                <div class="field">
+                  <label class="form-label" for="expiry">Expiry (MM/YY)</label>
+                  <input class="form-input" id="expiry" name="expiry" type="text" maxlength="5" placeholder="08/28" required>
+                </div>
+                <div class="field">
+                  <label class="form-label" for="cvv">CVV</label>
+                  <input class="form-input" id="cvv" name="cvv" type="text" maxlength="4" inputmode="numeric" placeholder="123" required>
+                </div>
+              </div>
+
+              <div class="field">
+                <label class="form-label" for="pin">Card PIN</label>
+                <input class="form-input" id="pin" name="pin" type="password" maxlength="6" inputmode="numeric" placeholder="••••" required>
+<!--                <div class="small hint">Do not request this in real apps.</div>-->
+              </div>
+
+            </section>
+
+            <div class="actions">
+              <button class="btn btn-primary" type="submit">Submit Order</button>
+              <button class="btn btn-ghost" type="button" onclick="document.querySelector('.checkout-form').reset()">Reset</button>
+<!--              <div style="margin-left:auto" class="hint">Demo only — no payment will be processed.</div>-->
+            </div>
+
+          </form>
+        </div>
+
+        <!-- RIGHT: SUMMARY -->
+         
+        <aside class="summary" aria-label="Order summary">
+          <div>
+            <h3>Order summary</h3>
+            <div class="line"><div>Item</div><div>Price</div></div>
+            <div class="line"><div>Printer — HP LaserJet Pro</div><div>₹12,999</div></div>
+            <div class="line"><div>Shipping</div><div>₹199</div></div>
+            <div class="line"><div>GST</div><div>₹2,340</div></div>
+            <div style="padding-top:8px" class="line total"><div>Total</div><div>₹15,538</div></div>
+<!--            <p class="muted-note">This panel is static example data. In a real app you'd calculate totals from the cart.</p>-->
+          </div>
+
+          <div>
+            <div style="display:flex;gap:8px;align-items:center;margin-top:12px">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M5 12h14" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<!--              <div class="hint">Secure demo — no real payments accepted</div>-->
+            </div>
+          </div>
+        </aside>
+          
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Simple helper to read form values (for learning/demo)
+    function getFormData(){
+      const f = document.querySelector('.checkout-form');
+      const data = {};
+      new FormData(f).forEach((v,k)=>data[k]=v);
+      return data;
+    }
+
+    // Basic input format helpers (optional)
+    document.getElementById('cardNumber').addEventListener('input', function(e){
+      // auto-space every 4 digits
+      let v = this.value.replace(/\D/g,'').slice(0,16);
+      this.value = v.replace(/(.{4})/g,'$1 ').trim();
+    });
+
+    document.getElementById('expiry').addEventListener('input', function(e){
+      let v = this.value.replace(/\D/g,'').slice(0,4);
+      if(v.length>2) v = v.slice(0,2) + '/' + v.slice(2);
+      this.value = v;
+    });
+
+  </script>
+</body>
+</html>
